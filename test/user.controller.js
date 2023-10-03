@@ -52,6 +52,20 @@ describe('User', () => {
         })
       })
     })
+    it('only give username input for user', (done)=> {
+      const user = {
+        username: 'sergkudinov',
+        firstname: 'Sergei',
+        lastname: 'Kudinov'
+      }
+      // Create a user
+        userController.create(user, (err, result) => {
+          expect(err).to.not.be.equal(null)
+          expect(result).to.be.equal(null)
+          done()
+        })
+     
+    })
   })
 
   describe('Get', ()=> {
