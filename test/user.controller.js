@@ -59,7 +59,7 @@ describe('User', () => {
       }
       // Create a user
         userController.create(user, (err, result) => {
-          expect(err).to.be.equal(null)
+          expect(err).to.not.be.equal(null)
           expect(result).to.be.equal(null)
           done()
         })
