@@ -8,9 +8,6 @@ describe('User', () => {
     // Clean DB before each test
     db.flushdb()
   })
-
-
-  
   
   describe('Create', () => {
 
