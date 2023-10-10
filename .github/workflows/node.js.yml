@@ -1,19 +1,20 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Node.js CI
+name: Build and deploy Node.js app to Azure Web App - Lab4test2
 
 on:
   push:
-    branches: [ "test_p1" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
 
+
     runs-on: ubuntu-latest
-    services:
+     services:
       redis:
         image: redis
         options: >-
@@ -23,17 +24,29 @@ jobs:
           --health-retries 5
         ports: 
           - 6379:6379
-
+        
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js 18.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18.x
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test 
-      env:
-        REDIS_HOST: localhost
-        REDIS_PORT: 6379
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '20.x'
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: .
+        env : 
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
