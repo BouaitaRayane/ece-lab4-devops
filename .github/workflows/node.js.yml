@@ -5,7 +5,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "devops-lab4" ]
+    branches: [ "test_p1" ]
   pull_request:
     branches: [ "main" ]
 
@@ -26,10 +26,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js 20.x
+    - name: Use Node.js 18.x
       uses: actions/setup-node@v3
       with:
-        node-version: 20.x
+        node-version: 18.x
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
